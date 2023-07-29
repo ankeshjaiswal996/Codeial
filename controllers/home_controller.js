@@ -1,15 +1,25 @@
 const Post = require('../models/post');
-const { post } = require('../routes/posts');
+const User = require('../models/user')
 
 module.exports.home = async function (req, res) {
     try {
-        const posts = await Post.find({}).populate('user') // Fetch all posts from the database and populate the 'user' field
+        let posts = await Post.find({})
+        .populate('user')
+        .populate({      // Fetch all posts from the database and populate the 'user' field
+            path: 'comments',
+            populate:{
+                path: 'user'
+            }
+        })
+        let users = await User.find({})
         return res.render('home', {
             title: "Codeial | Home",
-            posts: posts
+            posts: posts,
+            all_users: users
         });
-    } catch (err) {
-        console.error("Error fetching posts:", err);
-        return res.status(500).send("Internal Server Error");
+    }
+    catch(error) {
+        console.log("Error fetching posts:", error);
+        // return res.status(500).send("Internal Server Error");
     }
 }
