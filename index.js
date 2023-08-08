@@ -13,13 +13,7 @@ const nodesass = require('node-sass');
 var flash = require('connect-flash');
 const customMware= require('./config/middleware');
 
-// app.use(nodesass({
-//     src:'./assets/scss',
-//     dest: './assets/css',
-//     debug: true,
-//     outputStyle: 'extended',
-//     prefix: '/css'
-// }));
+
 app.use(express.urlencoded());
 
 app.use(cookieParser());
